@@ -6,3 +6,5 @@
 # db/api_keys.txt
 # db/server_config.txt
 # tmp_weights
+docker-compose.yml
+Dockerfile

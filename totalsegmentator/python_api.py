@@ -169,6 +169,8 @@ def totalsegmentator(input, output, ml=False, nr_thr_resamp=1, nr_thr_saving=6,
         crop = "body"
         model = "3d_fullres"
         folds = [0]
+    else:
+        raise ValueError("Provided task does not exist.")
 
     crop_path = output if crop_path is None else crop_path
 

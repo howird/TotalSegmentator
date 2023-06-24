@@ -18,3 +18,5 @@ unittest_prediction_fast
 *.plan
 .terraform/
 *.pem
+
+total_segmentator_hd

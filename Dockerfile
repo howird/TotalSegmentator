@@ -1,21 +1,33 @@
-FROM nvcr.io/nvidia/pytorch:23.05-py3
+FROM nvidia/cuda:11.3.0-devel-ubuntu20.04
 
-RUN apt-get update
-# Needed for fury vtk. ffmpeg also needed
-RUN apt-get install ffmpeg libsm6 libxext6 -y
-RUN apt-get install xvfb -y
+# bypass required inputs
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Set up dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential \ 
+    wget git neovim dcm2niix pigz
+
+# configure python and install pip
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends python3-pip python3-dev && \
+    ln -s $(which python3) /usr/bin/python
+
+# install pytorch+cuda requirements
+RUN pip install --no-cache-dir torch==1.11.0+cu113 torchvision==0.12.0+cu113 -f https://download.pytorch.org/whl/torch_stable.html
+
+RUN apt-get update && \
+    apt-get install ffmpeg libsm6 libxext6 xvfb -y
 
 RUN pip install --upgrade pip
 RUN pip install flask gunicorn
 
 # installing pyradiomics results in an error in github actions
-# RUN pip pyradiomics
+RUN pip install pyradiomics
 
 COPY . /app
-RUN pip install /app
+RUN python /app/setup.py develop
 
 RUN python /app/totalsegmentator/download_pretrained_weights.py
 
-# expose not needed if using -p
-# If using only expose and not -p then will not work
-# EXPOSE 80
+WORKDIR /root

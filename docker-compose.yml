@@ -1,0 +1,18 @@
+services:
+  torch:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    runtime: nvidia
+    volumes:
+      - .:/app
+      - /home/ubuntu/data:/root/data
+      - /home/ubuntu/output:/root/output
+      - /home/ubuntu/ml-play:/root/ml-play
+    ipc: host
+    tty: True
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]

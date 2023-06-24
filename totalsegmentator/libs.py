@@ -194,6 +194,8 @@ def download_pretrained_weights(task_id):
             shutil.rmtree(config_dir / old_weight)
 
     if WEIGHTS_URL is not None and not weights_path.exists():
+        if WEIGHTS_URL == "manually_download":
+            raise Exception(f"{WEIGHTS_URL}, {weights_path.exists()} {weights_path}")
         print(f"Downloading pretrained weights for Task {task_id} (~230MB) ...")
 
         # r = requests.get(WEIGHTS_URL)

@@ -26,8 +26,14 @@ RUN pip install flask gunicorn
 RUN pip install pyradiomics
 
 COPY . /app
+WORKDIR /app
 RUN python /app/setup.py develop
 
 RUN python /app/totalsegmentator/download_pretrained_weights.py
+
+# This step installs the licensed HD weights, comment it out if you do not have access to them
+RUN totalseg_import_weights -i /app/total_segmentator_hd/Task278_TotalSegmentator_part6_bones_1259subj.zip && \
+    totalseg_import_weights -i /app/total_segmentator_hd/Task435_Heart_vessels_118subj.zip && \
+    totalseg_import_weights -i /app/total_segmentator_hd/Task417_heart_mixed_317subj.zip -t 3d_lowres
 
 WORKDIR /root

@@ -5,10 +5,12 @@ if sys.version_info < (3, 10):
     # Specify the fixed version for Python < 3.10. Because using the latest
     # requests would also install the latest urllib3 which does not work
     # properly on python < 3.10.
-    requests_version = '==2.27.1'  #requires: urllib3>=1.21.1,<1.27 
+    requests_version = '==2.27.1'  #requires: urllib3>=1.21.1,<1.27
+    scipy_version = '==1.10.0'
     # 2.27.1 somehow not available in dockerfile
 else:
     requests_version = ''  # No fixed version for Python 3.10 and higher
+    scipy_version = ''
 
 
 setup(name='TotalSegmentator',
@@ -25,13 +27,14 @@ setup(name='TotalSegmentator',
             'torch>=1.10.2',
             'numpy',
             'psutil',
+            f'scipy{scipy_version}',
             # Any version <2.1.0 because of this issue: 
             # https://github.com/SimpleITK/SimpleITK/issues/1433
             'SimpleITK',
             'nibabel>=2.3.0',
             'tqdm>=4.45.0',
             'p_tqdm',
-            'xvfbwrapper',
+            # 'xvfbwrapper',
             'fury',
             'batchgenerators==0.21',
             # This does not work if want to upload to pypi

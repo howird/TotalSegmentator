@@ -41,7 +41,7 @@ setup(name='TotalSegmentator',
             # 'nnunet @ git+https://github.com/wasserth/nnUNet_cust@working_2022_03_18#egg=nnUNet'
             'nnunet-customized==1.2',
             f'requests{requests_version}',
-            'rt_utils'
+            # 'rt_utils'
         ],
         zip_safe=False,
         classifiers=[
